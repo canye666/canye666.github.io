@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>picpage</title>
-    <url>/2020/01/16/picpage/</url>
-    <content><![CDATA[<p>哈哈哈哈</p>
-]]></content>
-      <tags>
-        <tag>测试</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo博客的一些简单实用命令</title>
     <url>/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<p>Hexo博客的一些简单实用命令 , 提升博客配置、命令操作以及界面优化</p>
@@ -25,11 +16,16 @@
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo s</span></span><br></pre></td></tr></table></figure>
 <p>创建一篇文章</p>
 <figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="type">post</span> xxx</span><br></pre></td></tr></table></figure>
-
+<p>链式命令</p>
+<figure class="highlight sas"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="variable">&amp;&amp;</span> hexo g <span class="variable">&amp;&amp;</span> hexo d</span><br></pre></td></tr></table></figure>
 
 
 <h1 id="hexo个性化配置以及写法"><a href="#hexo个性化配置以及写法" class="headerlink" title="hexo个性化配置以及写法"></a>hexo个性化配置以及写法</h1><h2 id="修改生成页面的渲染模板"><a href="#修改生成页面的渲染模板" class="headerlink" title="修改生成页面的渲染模板"></a>修改生成页面的渲染模板</h2><p>通过 hexo new 等命令创建页面的模板,默认渲染有时不能满足我们的业务。这时需要修改默认渲染模板：<br>修改了scaffolds中的post等模板。</p>
-<h2 id="文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下"><a href="#文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下" class="headerlink" title="文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)"></a>文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)</h2><figure class="highlight less"><table><tr><td class="code"><pre><span class="line">!<span class="selector-attr">[]</span>(/sea.jpg)</span><br></pre></td></tr></table></figure>]]></content>
+<h2 id="文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下"><a href="#文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下" class="headerlink" title="文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)"></a>文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)</h2><figure class="highlight less"><table><tr><td class="code"><pre><span class="line">!<span class="selector-attr">[]</span>(/sea.jpg)</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
       <categories>
         <category>Hexo</category>
       </categories>
@@ -41,6 +37,7 @@
     <title>Hello World</title>
     <url>/2020/01/15/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<a id="more"></a>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
@@ -54,5 +51,8 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 ]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
   </entry>
 </search>
