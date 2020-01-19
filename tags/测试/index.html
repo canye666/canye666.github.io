@@ -14,7 +14,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-atom.min.css">
   <script src="/lib/pace/pace.min.js"></script>
 
 
@@ -23,7 +23,7 @@
   var CONFIG = {
     hostname: new URL('http://juzi.com').hostname,
     root: '/',
-    scheme: 'Gemini',
+    scheme: 'Pisces',
     version: '7.7.0',
     exturl: false,
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
@@ -110,7 +110,7 @@
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+      <div id="id-header-inner" class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
 
     <div>
@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">1</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -185,6 +185,77 @@
 
   </div>
 </div>
+	   <!-- 改变css样式 -->
+<script type="text/javascript">
+// 首页自动切换轮播图     daily?每天搜索中国年  搜索只能递深搜索 尽管加/也不能 or搜索    
+var url = "https://source.unsplash.com/1600x900/daily?chinese%20year";
+//var url = "https://source.unsplash.com/random/1600x900";
+// 手机电脑自动判断，电脑显示适合电脑的壁纸，手机显示适合手机的壁纸 http://api.btstu.cn/sjbz/zsy.php
+// var url ="http://api.btstu.cn/sjbz/?lx=dongman";
+document.getElementsByTagName("body")[0].style.backgroundImage = "url("+url+")";
+window.onload=function() {
+	console.log(document.getElementsByClassName("comments").length)
+	if(document.getElementsByClassName("comments").length < 1) {
+		// 没有评论页面的设置透明
+		document.getElementsByTagName("body")[0].style.opacity = "0.8"
+	}
+}
+var url = document.location.pathname;
+var folderName = url.substr(1, url.length - 2)
+console.log(folderName);
+
+var listPostUrl = [
+    "/" + folderName + "/" + "post-banner.png",
+    "/" + folderName + "/" + "post-banner.jpg",
+];
+
+var nSuccessCount = 0;
+var nResponceCount = 0;
+function OnHttpResponse(bSuccess, strUrl) {
+    console.log("OnHttpResponse: " + bSuccess + ", " + strUrl);
+    nResponceCount++;
+    if(nSuccessCount > 0){
+        return;
+    }
+    if(bSuccess) {
+        nSuccessCount++;
+        document.getElementById("id-header-inner").style.backgroundImage = "url(" + strUrl + ")";
+    }
+    if(nResponceCount >= listPostUrl.length && nSuccessCount <= 0){
+        // 使用默认图
+        document.getElementById("id-header-inner").style.backgroundImage = "url(/images/background.jpg)";
+    }
+}
+
+function changeBanner(strPostUrl, nIndex){
+    console.log("try to load" + strPostUrl);
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+    {
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            OnHttpResponse(true, strPostUrl);
+        } else {
+            OnHttpResponse(false, strPostUrl);
+        }
+    }
+    xmlhttp.open("HEAD",strPostUrl,true);
+    xmlhttp.send();
+}
+
+listPostUrl.forEach(changeBanner);
+</script>
+		
     </header>
 
     
@@ -224,35 +295,15 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-01-15T15:10:57+08:00"
-              content="2020-01-15">
-          01-15
+              datetime="2020-01-16T18:05:57+08:00"
+              content="2020-01-16">
+          01-16
         </time>
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/15/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" itemprop="url">
-            <span itemprop="name">测试文章</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-15T15:06:43+08:00"
-              content="2020-01-15">
-          01-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/01/15/%E6%B5%8B%E8%AF%95/" itemprop="url">
-            <span itemprop="name">测试</span>
+          <a class="post-title-link" href="/2020/01/16/picpage/" itemprop="url">
+            <span itemprop="name">picpage</span>
           </a>
       </h2>
 
@@ -343,7 +394,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -378,13 +429,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">86k</span>
+    <span title="站点总字数">1k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:18</span>
+    <span title="站点阅读时长">1 分钟</span>
 </div>
 
 
@@ -423,7 +474,7 @@
 
   
   
-  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='128' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
@@ -439,7 +490,6 @@
 <script src="/js/next-boot.js"></script>
 
 
-  <script defer src="/lib/three/three.min.js"></script>
 
 
   
