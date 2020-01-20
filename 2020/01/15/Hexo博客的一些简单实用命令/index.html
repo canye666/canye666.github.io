@@ -14,7 +14,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/lib/pace/pace-theme-center-atom.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-flash.min.css">
   <script src="/lib/pace/pace.min.js"></script>
 
 
@@ -29,7 +29,7 @@
     sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":true,"show_result":true,"style":"mac"},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    bookmark: {"enable":true,"color":"#EE2C2C","save":"auto"},
     fancybox: false,
     mediumzoom: false,
     lazyload: false,
@@ -56,7 +56,7 @@
 <meta property="og:description" content="Hexo博客的一些简单实用命令 , 提升博客配置、命令操作以及界面优化">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-15T07:06:43.000Z">
-<meta property="article:modified_time" content="2020-01-19T07:23:06.854Z">
+<meta property="article:modified_time" content="2020-01-20T02:02:26.711Z">
 <meta property="article:author" content="lilongji">
 <meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary">
@@ -108,7 +108,6 @@
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
-    <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div id="id-header-inner" class="header-inner"><div class="site-brand-container">
@@ -194,8 +193,10 @@ var url = "https://source.unsplash.com/random/1600x900/daily?";
 // 手机电脑自动判断，电脑显示适合电脑的壁纸，手机显示适合手机的壁纸 http://api.btstu.cn/sjbz/zsy.php
 //  var url ="http://api.btstu.cn/sjbz/?lx=dongman";
 document.getElementsByTagName("body")[0].style.backgroundImage = "url("+url+")";
+　frames['neteasyMusic'].contentWindow.document.getElementById("time").style.display = "none";
+
 window.onload=function() {
-	console.log(document.getElementsByClassName("comments").length)
+	//console.log(document.getElementsByClassName("comments").length)
 	if(document.getElementsByClassName("comments").length < 1) {
 		// 没有评论页面的设置透明
 		document.getElementsByTagName("body")[0].style.opacity = "0.8"
@@ -265,6 +266,7 @@ listPostUrl.forEach(changeBanner);
     <span>0%</span>
   </div>
   <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -331,7 +333,7 @@ listPostUrl.forEach(changeBanner);
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>328</span>
+              <span>553</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -370,8 +372,12 @@ listPostUrl.forEach(changeBanner);
 <h1 id="hexo个性化配置以及写法"><a href="#hexo个性化配置以及写法" class="headerlink" title="hexo个性化配置以及写法"></a>hexo个性化配置以及写法</h1><h2 id="修改生成页面的渲染模板"><a href="#修改生成页面的渲染模板" class="headerlink" title="修改生成页面的渲染模板"></a>修改生成页面的渲染模板</h2><p>通过 hexo new 等命令创建页面的模板,默认渲染有时不能满足我们的业务。这时需要修改默认渲染模板：<br>修改了scaffolds中的post等模板。</p>
 <h2 id="文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下"><a href="#文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下" class="headerlink" title="文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)"></a>文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)</h2><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!<span class="selector-attr">[]</span>(/sea.jpg)</span><br></pre></td></tr></table></figure>
 
-
-
+<p>去掉顶部黑线但不会影响加载与阅读进度线条的使用<br>修改文件“themes\next\layout_layout.swig”，删除“<div class="headband"></div>”</p>
+<p>修改黑线高度为0<br>修改文件“themes\next\source\css_variables\base.styl”，找到“$headband-height”，把3px改成0px；</p>
+<p>// Headband</p>
+<p>// ————————————————–</p>
+<p>$headband-height                = 0px</p>
+<p>$headband-bg                    = $black-deep</p>
 
     </div>
 
@@ -487,7 +493,9 @@ listPostUrl.forEach(changeBanner);
     <span class="toggle-line toggle-line-middle"></span>
     <span class="toggle-line toggle-line-last"></span>
   </div>
+	  
 
+  
   <aside class="sidebar">
     <div class="sidebar-inner">
 
@@ -506,7 +514,7 @@ listPostUrl.forEach(changeBanner);
       </div>
 	  
       <!--/noindex-->
-
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=298 height=52 src="//music.163.com/outchain/player?type=0&id=385044262&auto=0&height=32"></iframe>
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="lilongji"
@@ -554,12 +562,15 @@ listPostUrl.forEach(changeBanner);
 	
 
 	  <div id="sidebar-dimmer"></div>
-	  
+
+<div class="post-toc-wrap">
+   	
+  <iframe id="neteasyMusic" frameborder="no" border="0" marginwidth="0" marginheight="0" width=300 height=360 src="//music.163.com/outchain/player?type=0&id=385044262&auto=0&height=360"></iframe> 
+</div>
 
   </aside>
   
-  <div style="position: absolute;left: 140px;top: 750px;width:292px"> 	
-  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=300 height=360 src="//music.163.com/outchain/player?type=0&id=385044262&auto=1&height=360"></iframe> </div>
+  
 
 
 
@@ -643,6 +654,8 @@ listPostUrl.forEach(changeBanner);
 
 <script src="/js/next-boot.js"></script>
 
+<script src="/js/bookmark.js"></script>
+
 
 
 
@@ -687,5 +700,5 @@ NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
 </script>
 
 <script type="text/javascript" src="/js/src/clicklove.js"></script>
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/assets/miku.model.json"},"display":{"position":"right","width":300,"height":400},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

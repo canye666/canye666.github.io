@@ -23,8 +23,12 @@
 <h1 id="hexo个性化配置以及写法"><a href="#hexo个性化配置以及写法" class="headerlink" title="hexo个性化配置以及写法"></a>hexo个性化配置以及写法</h1><h2 id="修改生成页面的渲染模板"><a href="#修改生成页面的渲染模板" class="headerlink" title="修改生成页面的渲染模板"></a>修改生成页面的渲染模板</h2><p>通过 hexo new 等命令创建页面的模板,默认渲染有时不能满足我们的业务。这时需要修改默认渲染模板：<br>修改了scaffolds中的post等模板。</p>
 <h2 id="文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下"><a href="#文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下" class="headerlink" title="文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)"></a>文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)</h2><figure class="highlight less"><table><tr><td class="code"><pre><span class="line">!<span class="selector-attr">[]</span>(/sea.jpg)</span><br></pre></td></tr></table></figure>
 
-
-
+<p>去掉顶部黑线但不会影响加载与阅读进度线条的使用<br>修改文件“themes\next\layout_layout.swig”，删除“<div class="headband"></div>”</p>
+<p>修改黑线高度为0<br>修改文件“themes\next\source\css_variables\base.styl”，找到“$headband-height”，把3px改成0px；</p>
+<p>// Headband</p>
+<p>// ————————————————–</p>
+<p>$headband-height                = 0px</p>
+<p>$headband-bg                    = $black-deep</p>
 ]]></content>
       <categories>
         <category>Hexo</category>
