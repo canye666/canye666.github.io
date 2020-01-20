@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hexo博客的一些简单实用命令</title>
+    <title>SpringBoot测试单元类</title>
+    <url>/2020/01/20/springbootTest/</url>
+    <content><![CDATA[<center>
+ 本文用于收集springboot的各种测试单元类的写法与配置。
+</center>
+
+<a id="more"></a>
+<figure class="highlight d"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.hnjz;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.jayway.restassured.RestAssured;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.IntegrationTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.SpringApplicationConfiguration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.web.WebAppConfiguration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.restassured.RestAssured.given;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.restassured.RestAssured.when;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.CoreMatchers.<span class="keyword">is</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@RunWith</span>(SpringJUnit4ClassRunner.<span class="keyword">class</span>)</span><br><span class="line"><span class="keyword">@SpringApplicationConfiguration</span>(classes = App.<span class="keyword">class</span>)</span><br><span class="line"><span class="keyword">@WebAppConfiguration</span></span><br><span class="line"><span class="keyword">@IntegrationTest</span>(&#123;<span class="string">"server.port:0"</span>,</span><br><span class="line">        <span class="string">"spring.datasource.url:jdbc:h2:mem:mydemo;DB_CLOSE_ON_EXIT=FALSE"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> HelloControllerTest &#123;</span><br><span class="line">    <span class="keyword">@Value</span>(<span class="string">"$&#123;local.server.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HelloController helloController;</span><br><span class="line">    <span class="keyword">@Before</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> setUp() throws Exception &#123;</span><br><span class="line">        RestAssured.port = port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testHello() throws Exception &#123;</span><br><span class="line">        when().get(<span class="string">"/"</span>).then()</span><br><span class="line">                .<span class="keyword">body</span>(<span class="keyword">is</span>(<span class="string">"Hello World!"</span>));</span><br><span class="line">       System.<span class="keyword">out</span>.println( helloController.hello(<span class="string">""</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testCalc() throws Exception &#123;</span><br><span class="line">        given().param(<span class="string">"left"</span>, <span class="number">100</span>)</span><br><span class="line">                .param(<span class="string">"right"</span>, <span class="number">200</span>)</span><br><span class="line">                .get(<span class="string">"/calc"</span>)</span><br><span class="line">                .then()</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"left"</span>, <span class="keyword">is</span>(<span class="number">100</span>))</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"right"</span>, <span class="keyword">is</span>(<span class="number">200</span>))</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"answer"</span>, <span class="keyword">is</span>(<span class="number">300</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hexo博客的一些实用命令(超强)</title>
     <url>/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>Hexo博客的一些简单实用命令 , 提升博客配置、命令操作以及界面优化</p>
+    <content><![CDATA[<p>Hexo博客的一些实用命令 , 提升博客配置、命令操作以及界面优化<br><img src="/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/59N58PICGVt_1024.jpg" alt="hexo实用命令以及配置"></p>
 <a id="more"></a>
 
 <h1 id="操作hexo命令"><a href="#操作hexo命令" class="headerlink" title="操作hexo命令"></a>操作hexo命令</h1><p>清缓存</p>
@@ -29,39 +43,6 @@
 <p>// ————————————————–</p>
 <p>$headband-height                = 0px</p>
 <p>$headband-bg                    = $black-deep</p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo博客的一些日常使用命令(最强!)</title>
-    <url>/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4%20-%20%E5%89%AF%E6%9C%AC/</url>
-    <content><![CDATA[<p>Hexo博客的一些实用命令 , 提升博客配置(一些你以为很简单，但是意想不到的骚操作)、命令操作以及界面优化<br>Hexo博客的一些实用命令 , 提升博客配置(一些你以为很简单，但是意想不到的骚操作)、命令操作以及界面优化</p>
-<a id="more"></a>
-
-<h1 id="操作hexo命令"><a href="#操作hexo命令" class="headerlink" title="操作hexo命令"></a>操作hexo命令</h1><p>清缓存</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo clean</span></span><br></pre></td></tr></table></figure>
-<p>生成文件 hexo generate<br>简写:</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo g</span></span><br></pre></td></tr></table></figure>
-<p>部署 hexo deploy<br>简写:</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo d</span></span><br></pre></td></tr></table></figure>
-<p>启动服务 hexo server<br>简写:</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo s</span></span><br></pre></td></tr></table></figure>
-<p>创建一篇文章</p>
-<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="type">post</span> xxx</span><br></pre></td></tr></table></figure>
-<p>链式命令</p>
-<figure class="highlight sas"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="variable">&amp;&amp;</span> hexo g <span class="variable">&amp;&amp;</span> hexo d</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="hexo个性化配置以及写法"><a href="#hexo个性化配置以及写法" class="headerlink" title="hexo个性化配置以及写法"></a>hexo个性化配置以及写法</h1><h2 id="修改生成页面的渲染模板"><a href="#修改生成页面的渲染模板" class="headerlink" title="修改生成页面的渲染模板"></a>修改生成页面的渲染模板</h2><p>通过 hexo new 等命令创建页面的模板,默认渲染有时不能满足我们的业务。这时需要修改默认渲染模板：<br>修改了scaffolds中的post等模板。</p>
-<h2 id="文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下"><a href="#文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下" class="headerlink" title="文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)"></a>文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)</h2><figure class="highlight less"><table><tr><td class="code"><pre><span class="line">!<span class="selector-attr">[]</span>(/sea.jpg)</span><br></pre></td></tr></table></figure>
-
-
-
 ]]></content>
       <categories>
         <category>Hexo</category>
