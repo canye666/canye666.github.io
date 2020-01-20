@@ -1234,7 +1234,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #c6a2ff;
+  background: #ff7a5e;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1279,6 +1279,7 @@ pre .javascript .function {
   padding: 0;
 }
 .links-of-blogroll-item {
+  display: inline-block;
   padding: 2px 10px;
 }
 .links-of-blogroll-item a,
@@ -1610,6 +1611,7 @@ pre .javascript .function {
 .post-button {
   margin-top: 40px;
   text-align: center;
+  margin-bottom: 30px;
 }
 .use-motion .post-block,
 .use-motion .pagination,
@@ -1748,7 +1750,7 @@ pre .javascript .function {
   display: none;
 }
 .posts-expand {
-  padding-top: 40px;
+  padding-top: 0px;
 }
 @media (max-width: 767px) {
   .posts-expand {
@@ -2421,15 +2423,28 @@ ul.breadcrumb li + li:last-child {
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
 }
-.post {
-  margin-top: 60px;
-  margin-bottom: 60px;
-  padding: 25px;
-  -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
-  -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
+body {
+  background: url("https://source.unsplash.com/random/1920x1080/daily?");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 50% 50%;
 }
-#time {
-  display: none !important;
+.content-wrap {
+  padding-top: 30px !important;
+}
+article.home {
+  background: #fff !important;
+  margin-bottom: 30px !important;
+  padding: 25px !important;
+  -webkit-box-shadow: 0 0 50px rgba(135,206,235,0.8) !important;
+  -moz-box-shadow: 0 0 5px rgba(202,203,204,0.8) !important;
+}
+.sidebar-inner,
+.header-inner,
+.affix-top,
+.sidebar,
+article {
+  border-radius: 17px !important;
 }
 .header {
   margin: 0 auto;
@@ -2730,6 +2745,29 @@ ul.breadcrumb li + li:last-child {
 .links-of-author-item .fa {
   margin-right: 2px;
 }
+.links-of-blogroll::before,
+.links-of-blogroll::after {
+  content: ' ';
+  display: table;
+}
+.links-of-blogroll::after {
+  clear: both;
+}
 .links-of-blogroll-item {
   padding: 0;
+  margin: 5px 0 0;
+  width: 50%;
+  width: unset;
+}
+.links-of-blogroll-item a,
+.links-of-blogroll-item span.exturl {
+  box-sizing: border-box;
+  display: inline-block;
+  margin-bottom: 0;
+  margin-right: 0;
+  max-width: 216px;
+  overflow: hidden;
+  padding: 0 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
