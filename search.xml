@@ -22,7 +22,7 @@
 
 <h1 id="操作hexo命令"><a href="#操作hexo命令" class="headerlink" title="操作hexo命令"></a>操作hexo命令</h1><p>清缓存</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo clean</span></span><br></pre></td></tr></table></figure>
-<p>生成文件 hexo generate<br>简写:</p>
+<p>生成文件 <strong>hexo generate</strong><br>简写:</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo g</span></span><br></pre></td></tr></table></figure>
 <p>部署 hexo deploy<br>简写:</p>
 <figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo d</span></span><br></pre></td></tr></table></figure>
