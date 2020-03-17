@@ -1,63 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>SpringBoot测试单元类</title>
-    <url>/2020/01/20/springbootTest/</url>
-    <content><![CDATA[<center>
- 本文用于收集springboot的各种测试单元类的写法与配置。
-</center>
+    <title>js图片操作教程</title>
+    <url>/2020/03/17/js%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();    </span><br><span class="line">     xhr.open(<span class="string">"get"</span>, <span class="string">'http://api.btstu.cn/sjbz/zsy.php'</span>, <span class="literal">true</span>);</span><br><span class="line">     xhr.responseType = <span class="string">"blob"</span>;</span><br><span class="line">     xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">this</span>.status == <span class="number">200</span>) &#123;</span><br><span class="line">             <span class="keyword">debugger</span></span><br><span class="line">             <span class="keyword">var</span> blob = <span class="keyword">this</span>.response;</span><br><span class="line">             <span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</span><br><span class="line">             img.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">               <span class="built_in">window</span>.URL.revokeObjectURL(img.src); </span><br><span class="line">             &#125;;</span><br><span class="line">             img.src = <span class="built_in">window</span>.URL.createObjectURL(blob);</span><br><span class="line"> 　　　　　　　 <span class="built_in">document</span>.getElementsByTagName(<span class="string">"body"</span>)[<span class="number">0</span>].style.backgroundImage = img;</span><br><span class="line"></span><br><span class="line">      &#125; </span><br><span class="line">    &#125; </span><br><span class="line">    xhr.send();</span><br></pre></td></tr></table></figure>
 
-<iframe src="//player.bilibili.com/player.html?aid=53660661&cid=93868411&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> 
-<a id="more"></a>
-<figure class="highlight d"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.hnjz;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.jayway.restassured.RestAssured;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.IntegrationTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.SpringApplicationConfiguration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.web.WebAppConfiguration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.restassured.RestAssured.given;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.restassured.RestAssured.when;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.CoreMatchers.<span class="keyword">is</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@RunWith</span>(SpringJUnit4ClassRunner.<span class="keyword">class</span>)</span><br><span class="line"><span class="keyword">@SpringApplicationConfiguration</span>(classes = App.<span class="keyword">class</span>)</span><br><span class="line"><span class="keyword">@WebAppConfiguration</span></span><br><span class="line"><span class="keyword">@IntegrationTest</span>(&#123;<span class="string">"server.port:0"</span>,</span><br><span class="line">        <span class="string">"spring.datasource.url:jdbc:h2:mem:mydemo;DB_CLOSE_ON_EXIT=FALSE"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> HelloControllerTest &#123;</span><br><span class="line">    <span class="keyword">@Value</span>(<span class="string">"$&#123;local.server.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HelloController helloController;</span><br><span class="line">    <span class="keyword">@Before</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> setUp() throws Exception &#123;</span><br><span class="line">        RestAssured.port = port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testHello() throws Exception &#123;</span><br><span class="line">        when().get(<span class="string">"/"</span>).then()</span><br><span class="line">                .<span class="keyword">body</span>(<span class="keyword">is</span>(<span class="string">"Hello World!"</span>));</span><br><span class="line">       System.<span class="keyword">out</span>.println( helloController.hello(<span class="string">""</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testCalc() throws Exception &#123;</span><br><span class="line">        given().param(<span class="string">"left"</span>, <span class="number">100</span>)</span><br><span class="line">                .param(<span class="string">"right"</span>, <span class="number">200</span>)</span><br><span class="line">                .get(<span class="string">"/calc"</span>)</span><br><span class="line">                .then()</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"left"</span>, <span class="keyword">is</span>(<span class="number">100</span>))</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"right"</span>, <span class="keyword">is</span>(<span class="number">200</span>))</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"answer"</span>, <span class="keyword">is</span>(<span class="number">300</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>java</category>
-        <category>springboot</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Hexo博客的一些实用命令(超强)</title>
-    <url>/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>Hexo博客的一些实用命令 , 提升博客配置、命令操作以及界面优化<br><img src="/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/59N58PICGVt_1024.jpg" alt="hexo实用命令以及配置"></p>
-<a id="more"></a>
-<!-- <iframe src="//player.bilibili.com/player.html?aid=53660661&cid=93868411&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> -->
-
-<h1 id="操作hexo命令"><a href="#操作hexo命令" class="headerlink" title="操作hexo命令"></a>操作hexo命令</h1><p>清缓存</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo clean</span></span><br></pre></td></tr></table></figure>
-<p>生成文件 <strong>hexo generate</strong><br>简写:</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo g</span></span><br></pre></td></tr></table></figure>
-<p>部署 hexo deploy<br>简写:</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo d</span></span><br></pre></td></tr></table></figure>
-<p>启动服务 hexo server<br>简写:</p>
-<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo s</span></span><br></pre></td></tr></table></figure>
-<p>创建一篇文章</p>
-<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="type">post</span> xxx</span><br></pre></td></tr></table></figure>
-<p>链式命令</p>
-<figure class="highlight sas"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="variable">&amp;&amp;</span> hexo g <span class="variable">&amp;&amp;</span> hexo d</span><br></pre></td></tr></table></figure>
-
-
-<h1 id="hexo个性化配置以及写法"><a href="#hexo个性化配置以及写法" class="headerlink" title="hexo个性化配置以及写法"></a>hexo个性化配置以及写法</h1><h2 id="修改生成页面的渲染模板"><a href="#修改生成页面的渲染模板" class="headerlink" title="修改生成页面的渲染模板"></a>修改生成页面的渲染模板</h2><p>通过 hexo new 等命令创建页面的模板,默认渲染有时不能满足我们的业务。这时需要修改默认渲染模板：<br>修改了scaffolds中的post等模板。</p>
-<h2 id="文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下"><a href="#文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下" class="headerlink" title="文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)"></a>文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)</h2><figure class="highlight less"><table><tr><td class="code"><pre><span class="line">!<span class="selector-attr">[]</span>(/sea.jpg)</span><br></pre></td></tr></table></figure>
-
-<p>去掉顶部黑线但不会影响加载与阅读进度线条的使用<br>修改文件“themes\next\layout_layout.swig”，删除“<div class="headband"></div>”</p>
-<p>修改黑线高度为0<br>修改文件“themes\next\source\css_variables\base.styl”，找到“$headband-height”，把3px改成0px；</p>
-<p>// Headband</p>
-<p>// ————————————————–</p>
-<p>$headband-height                = 0px</p>
-<p>$headband-bg                    = $black-deep</p>
 ]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
   </entry>
   <entry>
     <title>Hello World</title>
-    <url>/2020/01/15/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+    <url>/2020/03/17/hello-world/</url>
+    <content><![CDATA[<p><img src="/2020/03/17/hello-world/59N58PICGVt_1024.jpg" alt="hexo实用命令以及配置"></p>
 <a id="more"></a>
+<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<!-- more -->
+
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
@@ -74,5 +31,190 @@
       <categories>
         <category>java</category>
       </categories>
+  </entry>
+  <entry>
+    <title>阿里巴巴镜像站安装centos7并个性化配置</title>
+    <url>/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="一、镜像下载"><a href="#一、镜像下载" class="headerlink" title="一、镜像下载"></a>一、镜像下载</h2><p>阿里巴巴开源镜像站：<a href="https://developer.aliyun.com/mirror/" target="_blank" rel="noopener">https://developer.aliyun.com/mirror/</a></p>
+<h5 id="1-新版方式-（阿里巴巴新版开源镜像站）："><a href="#1-新版方式-（阿里巴巴新版开源镜像站）：" class="headerlink" title="1. 新版方式 （阿里巴巴新版开源镜像站）："></a>1. 新版方式 （阿里巴巴新版开源镜像站）：</h5><p>点击OS镜像，在弹框中选择镜像进行下载（如需一些较新的指定版本号系统镜像可以到 <a href="http://mirrors.sohu.com" target="_blank" rel="noopener">搜狐开源镜像站</a>查找下载）。</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps14.jpg" alt="img"> </p>
+<a id="more"></a>
+
+<h5 id="2-老版方式（现市面较多的镜像站的形式）："><a href="#2-老版方式（现市面较多的镜像站的形式）：" class="headerlink" title="2. 老版方式（现市面较多的镜像站的形式）："></a>2. 老版方式（现市面较多的镜像站的形式）：</h5><p><a href="https://mirrors.aliyun.com/centos/" target="_blank" rel="noopener">https://mirrors.aliyun.com/centos/</a> 进入指定版本号目录是没有系统资源的。</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps15.jpg" alt="img"> </p>
+<p>当我们进入大版本号目录，能看到相关资源和种子连接，就可以下载了。</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps16.jpg" alt="img"> </p>
+<table>
+<thead>
+<tr>
+<th>CentOS 版本</th>
+<th align="left">版本说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DVD</td>
+<td align="left">DVD是标准安装盘，一般下载这个就可以了</td>
+</tr>
+<tr>
+<td>NetInstall</td>
+<td align="left">网络安装镜像</td>
+</tr>
+<tr>
+<td>Everything</td>
+<td align="left">对完整版安装盘的软件进行补充，集成所有软件</td>
+</tr>
+<tr>
+<td>LiveGnome</td>
+<td align="left">GNOME桌面版</td>
+</tr>
+<tr>
+<td>KdeLive</td>
+<td align="left">KDE桌面版 与上风格不同</td>
+</tr>
+<tr>
+<td>livecd</td>
+<td align="left">光盘上运行的系统，类拟于winpe</td>
+</tr>
+<tr>
+<td>Minimal</td>
+<td align="left">小安装版，一般文本编辑器都没有，不推荐</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、开始安装（进入镜像）"><a href="#二、开始安装（进入镜像）" class="headerlink" title="二、开始安装（进入镜像）"></a>二、开始安装（进入镜像）</h2><p>安装的时候先是选择稍后安装操作系统，然后选择你要安装的一些配置</p>
+<p>重点是下图的系统镜像位置，该位置下的镜像不可移动。</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps17.jpg" alt="img"> </p>
+<p>最后启动添加进来的centos7版本的系统。</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps18.jpg" alt="img"> </p>
+<p>此时进来就已经是centos7的图形界面了，但是这时候是没有安装完成的，笔者也是被坑了几次，一重启该系统，之前的设置和下载的软件都会丢失，系统会还原最原始状态。</p>
+<h2 id="三、在系统中进行确认安装"><a href="#三、在系统中进行确认安装" class="headerlink" title="三、在系统中进行确认安装"></a>三、在系统中进行确认安装</h2><p>经了解centos 的7版本和6版本安装不同，7版本需要在进入的系统界面点击install进行安装。</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps19.jpg" alt="img"> </p>
+<p>稍等进入此界面已开始安装</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps20.jpg" alt="img"> </p>
+<p>进行个性化设置后点击开始安装</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps21.jpg" alt="img"> </p>
+<p>这里进行修改root超级用户的密码（密码稍简单的需要点两次完成已通过）</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps22.jpg" alt="img"> </p>
+<p>安装完成后重启，点击该项进入后勾选  ”我同意许可协议”</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps23.jpg" alt="img"> </p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps24.jpg" alt="img"> </p>
+<p>安装完成</p>
+<p>桌面右键添加部件可以调出文件管理和回收站（双击添加），部件还挺多的呦。</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps25.jpg" alt="img"> </p>
+<p>设置一些东西后重启发现这些设置都没有丢失，就大功告成了！</p>
+<h2 id="四、个性化配置终端的光标"><a href="#四、个性化配置终端的光标" class="headerlink" title="四、个性化配置终端的光标"></a>四、个性化配置终端的光标</h2><p>控制台光标向后偏移解决方法：</p>
+<p>控制台设置 -&gt; 管理配置方案</p>
+<p><img src="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/wps26.jpg" alt="img"> </p>
+]]></content>
+  </entry>
+  <entry>
+    <title>加速docker拉取速度之docker-daoCloud镜像源配置</title>
+    <url>/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>本文已解决执行 docker pull xxx镜像时经常会遇到<strong>连接超时</strong>以及<strong>连接拒绝</strong>问题</p>
+<h3 id="一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。"><a href="#一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。" class="headerlink" title="一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。"></a>一，在<a href="https://www.daocloud.io/mirror" target="_blank" rel="noopener">daoCloud镜像站</a>找到自己系统相对应的命令，执行或者配置。</h3><blockquote>
+<p>我的是centos7直接使用第一个命令, 直接在终端中执行了😃</p>
+</blockquote>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/158221282867571651582212826398.png" alt="官方提示的各版本操作方式"></p>
+<a id="more"></a>
+
+<h3 id="二，配置和执行命令后发现报错信息：图中红色部分"><a href="#二，配置和执行命令后发现报错信息：图中红色部分" class="headerlink" title="二，配置和执行命令后发现报错信息：图中红色部分"></a>二，配置和执行命令后发现报错信息：图中红色部分</h3><img src="/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/docker-cmd-error.png" alt="重启docker的相关服务后 , 执行push命令报错信息" style="zoom:150%;">
+
+<h3 id="三，修改阿里云等国内镜像源地址："><a href="#三，修改阿里云等国内镜像源地址：" class="headerlink" title="三，修改阿里云等国内镜像源地址："></a>三，修改阿里云等国内镜像源地址：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;docker&#x2F;daemon.json</span><br></pre></td></tr></table></figure>
+
+<p>修改为</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"registry-mirrors"</span>: [<span class="string">"https://9cpn8tt6.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="四，最后也是最重要的一步"><a href="#四，最后也是最重要的一步" class="headerlink" title="四，最后也是最重要的一步:"></a>四，最后也是最重要的一步:</h3><blockquote>
+<p> 刷新配置文件, 重启docker</p>
+</blockquote>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">systemctl</span> <span class="string">daemon-reload</span></span><br><span class="line"><span class="attr">systemctl</span> <span class="string">restart docker</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>再次执行下载镜像命令发现速度超快了😋, 我都没来得及截图😨</p>
+]]></content>
+      <categories>
+        <category>java</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot测试单元类</title>
+    <url>/2020/01/20/springbootTest/</url>
+    <content><![CDATA[<center>
+ 本文用于收集springboot的各种测试单元类的写法与配置。
+</center>
+
+<a id="more"></a>
+<figure class="highlight d"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.hnjz;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.jayway.restassured.RestAssured;</span><br><span class="line"><span class="keyword">import</span> org.junit.Before;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.IntegrationTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.SpringApplicationConfiguration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.web.WebAppConfiguration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.restassured.RestAssured.given;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.restassured.RestAssured.when;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.hamcrest.CoreMatchers.<span class="keyword">is</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@RunWith</span>(SpringJUnit4ClassRunner.<span class="keyword">class</span>)</span><br><span class="line"><span class="keyword">@SpringApplicationConfiguration</span>(classes = App.<span class="keyword">class</span>)</span><br><span class="line"><span class="keyword">@WebAppConfiguration</span></span><br><span class="line"><span class="keyword">@IntegrationTest</span>(&#123;<span class="string">"server.port:0"</span>,</span><br><span class="line">        <span class="string">"spring.datasource.url:jdbc:h2:mem:mydemo;DB_CLOSE_ON_EXIT=FALSE"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> HelloControllerTest &#123;</span><br><span class="line">    <span class="keyword">@Value</span>(<span class="string">"$&#123;local.server.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> HelloController helloController;</span><br><span class="line">    <span class="keyword">@Before</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> setUp() throws Exception &#123;</span><br><span class="line">        RestAssured.port = port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testHello() throws Exception &#123;</span><br><span class="line">        when().get(<span class="string">"/"</span>).then()</span><br><span class="line">                .<span class="keyword">body</span>(<span class="keyword">is</span>(<span class="string">"Hello World!"</span>));</span><br><span class="line">       System.<span class="keyword">out</span>.println( helloController.hello(<span class="string">""</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testCalc() throws Exception &#123;</span><br><span class="line">        given().param(<span class="string">"left"</span>, <span class="number">100</span>)</span><br><span class="line">                .param(<span class="string">"right"</span>, <span class="number">200</span>)</span><br><span class="line">                .get(<span class="string">"/calc"</span>)</span><br><span class="line">                .then()</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"left"</span>, <span class="keyword">is</span>(<span class="number">100</span>))</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"right"</span>, <span class="keyword">is</span>(<span class="number">200</span>))</span><br><span class="line">                .<span class="keyword">body</span>(<span class="string">"answer"</span>, <span class="keyword">is</span>(<span class="number">300</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>java</category>
+        <category>springboot</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hexo博客的一些实用命令(超强)</title>
+    <url>/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>Hexo博客的一些实用命令 , 提升博客配置、命令操作以及界面优化<br><img src="/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/59N58PICGVt_1024.jpg" alt="hexo实用命令以及配置"></p>
+<a id="more"></a>
+
+<h1 id="操作hexo命令"><a href="#操作hexo命令" class="headerlink" title="操作hexo命令"></a>操作hexo命令</h1><p>清缓存</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo clean</span></span><br></pre></td></tr></table></figure>
+<p>生成文件 <strong>hexo generate</strong><br>简写:</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo g</span></span><br></pre></td></tr></table></figure>
+<p>部署 hexo deploy<br>简写:</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo d</span></span><br></pre></td></tr></table></figure>
+<p>启动服务 hexo server<br>简写:</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hexo s</span></span><br></pre></td></tr></table></figure>
+<p>创建一篇文章</p>
+<figure class="highlight haxe"><table><tr><td class="code"><pre><span class="line">hexo <span class="keyword">new</span> <span class="type">post</span> xxx</span><br></pre></td></tr></table></figure>
+<p>链式命令</p>
+<figure class="highlight sas"><table><tr><td class="code"><pre><span class="line">hexo clean <span class="variable">&amp;&amp;</span> hexo g <span class="variable">&amp;&amp;</span> hexo d</span><br></pre></td></tr></table></figure>
+
+<p>换电脑使用hexo</p>
+<ol>
+<li><p>安装hexo</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装git部署工具</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-deployer-git <span class="comment">--save</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ol>
+<h1 id="hexo个性化配置以及写法"><a href="#hexo个性化配置以及写法" class="headerlink" title="hexo个性化配置以及写法"></a>hexo个性化配置以及写法</h1><h2 id="修改生成页面的渲染模板"><a href="#修改生成页面的渲染模板" class="headerlink" title="修改生成页面的渲染模板"></a>修改生成页面的渲染模板</h2><p>通过 hexo new 等命令创建页面的模板,默认渲染有时不能满足我们的业务。这时需要修改默认渲染模板：<br>修改了scaffolds中的post等模板。</p>
+<h2 id="文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下"><a href="#文章图片引用-图片文件要保存在和同级文章文件名一样的文件夹下" class="headerlink" title="文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)"></a>文章图片引用 (图片文件要保存在和同级文章文件名一样的文件夹下)</h2><figure class="highlight less"><table><tr><td class="code"><pre><span class="line">!<span class="selector-attr">[]</span>(/sea.jpg)</span><br></pre></td></tr></table></figure>
+
+<p>去掉顶部黑线但不会影响加载与阅读进度线条的使用<br>修改文件“themes\next\layout_layout.swig”，删除“<div class="headband"></div>”</p>
+<p>修改黑线高度为0<br>修改文件“themes\next\source\css_variables\base.styl”，找到“$headband-height”，把3px改成0px；</p>
+<p>// Headband</p>
+<p>// ————————————————–</p>
+<p>$headband-height                = 0px</p>
+<p>$headband-bg                    = $black-deep</p>
+<h3 id="博文置顶"><a href="#博文置顶" class="headerlink" title="博文置顶"></a>博文置顶</h3><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">var</span> pagination = <span class="built_in">require</span>(<span class="string">'hexo-pagination'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">locals</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> config = <span class="keyword">this</span>.config;</span><br><span class="line">  <span class="keyword">var</span> posts = locals.posts;</span><br><span class="line">    posts.data = posts.data.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(a.top &amp;&amp; b.top) &#123; <span class="comment">// 两篇文章top都有定义</span></span><br><span class="line">            <span class="keyword">if</span>(a.top == b.top) <span class="keyword">return</span> b.date - a.date; <span class="comment">// 若top值一样则按照文章日期降序排</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> b.top - a.top; <span class="comment">// 否则按照top值降序排</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(a.top &amp;&amp; !b.top) &#123; <span class="comment">// 以下是只有一篇文章top有定义，那么将有top的排在前面（这里用异或操作居然不行233）</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(!a.top &amp;&amp; b.top) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> b.date - a.date; <span class="comment">// 都没定义按照文章日期降序排</span></span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="keyword">var</span> paginationDir = config.pagination_dir || <span class="string">'page'</span>;</span><br><span class="line">  <span class="keyword">return</span> pagination(<span class="string">''</span>, posts, &#123;</span><br><span class="line">    perPage: config.index_generator.per_page,</span><br><span class="line">    layout: [<span class="string">'index'</span>, <span class="string">'archive'</span>],</span><br><span class="line">    format: paginationDir + <span class="string">'/%d/'</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">      __index: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>卜算子 统计  display=’none’</p>
+<p><img src="/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/image-20200222213900932.png" alt="image-20200222213900932"></p>
+<p>注释</p>
+<p><img src="/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/image-20200222213630871.png" alt="image-20200222213630871"></p>
+<p>大功告成!</p>
+<p><img src="/2020/01/15/Hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%94%A8%E5%91%BD%E4%BB%A4/image-20200222214554931.png" alt="image-20200222214554931"></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
   </entry>
 </search>

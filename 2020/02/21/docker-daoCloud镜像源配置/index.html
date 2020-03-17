@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-flash.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://lilongji.gitee.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#EE2C2C","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="本文已解决执行 docker pull xxx镜像时经常会遇到连接超时以及连接拒绝问题 一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。 我的是centos7直接使用第一个命令, 直接在终端中执行了😃  1curl -sSL https:&#x2F;&#x2F;get.daocloud.io&#x2F;daotools&#x2F;set_mirror.sh | sh -s http:&#x2F;&#x2F;f1361db2.m.dao">
+<meta property="og:type" content="article">
+<meta property="og:title" content="加速docker拉取速度之docker-daoCloud镜像源配置">
+<meta property="og:url" content="https://lilongji.gitee.io/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="桔子">
+<meta property="og:description" content="本文已解决执行 docker pull xxx镜像时经常会遇到连接超时以及连接拒绝问题 一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。 我的是centos7直接使用第一个命令, 直接在终端中执行了😃  1curl -sSL https:&#x2F;&#x2F;get.daocloud.io&#x2F;daotools&#x2F;set_mirror.sh | sh -s http:&#x2F;&#x2F;f1361db2.m.dao">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lilongji.gitee.io/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/158221282867571651582212826398.png">
+<meta property="og:image" content="https://lilongji.gitee.io/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/docker-cmd-error.png">
+<meta property="article:published_time" content="2020-02-21T07:06:43.000Z">
+<meta property="article:modified_time" content="2020-03-17T00:33:07.975Z">
+<meta property="article:author" content="lilongji">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lilongji.gitee.io/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/158221282867571651582212826398.png">
+
+<link rel="canonical" href="https://lilongji.gitee.io/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>加速docker拉取速度之docker-daoCloud镜像源配置 | 桔子</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div id="id-header-inner" class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">桔子</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">时光如梭，岁月如箭。芸芸众生，皆为浮毛。立存于世，或为信念，或为欣喜，或为苟且，或为佳人。</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">6</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+	   <!-- 改变css样式 -->
+<script type="text/javascript">
+// 首页自动切换轮播图     daily?每天搜索中国年  搜索只能递深搜索 尽管加/也不能 or搜索    
+//var url = "https://source.unsplash.com/1600x900/daily?chinese%20year";
+//var url = "https://source.unsplash.com/random/1600x900/daily?";
+// 手机电脑自动判断，电脑显示适合电脑的壁纸，手机显示适合手机的壁纸 http://api.btstu.cn/sjbz/zsy.php
+//  var url ="http://api.btstu.cn/sjbz/?lx=dongman";
+// https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture
+// document.getElementsByTagName("body")[0].style.backgroundImage = "url("+'https://source.unsplash.com/random/'+ document.body.clientWidth +'x' + document.body.clientHeight+")";
+ (function () {
+     var img = document.createElement('img');
+
+    /* 第二步设置sricpt标签的src属性*/ 
+    // img.src = 'https://source.unsplash.com/random/'+ document.body.clientWidth +'x' + document.body.clientHeight;
+    img.src = 'https://api.ixiaowai.cn/gqapi/gqapi.php'
+    img.id = 'iii'
+    img.style.display='none'
+    // img.style.width='15px'
+    // img.style.height='5px'
+    img.style.position='absolute'
+    // img.style.margin-bottom='20px'
+    document.body.appendChild(img);
+  })();
+
+window.onload=function() {
+    document.getElementsByTagName("body")[0].appendChild(document.getElementsByClassName("site-search")[0])
+  // 背景图
+  var img = document.getElementById("iii")
+  //设置左侧栏的图片背景预览
+    var saveImg = document.getElementById("saveImg")
+    img.setAttribute('width', document.getElementsByTagName("aside")[0].offsetWidth + ' ')
+    img.setAttribute('height', document.getElementsByTagName("aside")[0].offsetWidth * 9/16 + ' ')
+    img.setAttribute('transform', 'initial')
+    img.setAttribute('alt', '图片飞走啦~刷新再来一张吧')
+    img.style.marginTop = '10px'
+    img.style.maxWidth = document.getElementsByTagName("aside")[0].offsetWidth + ''
+    img.style.maxHeight = document.getElementsByTagName("aside")[0].offsetWidth * 9/16 + ''
+    img.style.display='block'
+
+   saveImg.appendChild(img);
+　//frames['neteasyMusic'].contentWindow.document.getElementById("time").style.display = "none";
+    document.getElementsByTagName("body")[0].style.backgroundImage = "url("+document.getElementById("iii").src+")";
+
+	//console.log(document.getElementsByClassName("comments").length)
+      // 设置透明
+  if(CONFIG.page.isHome) {
+      document.getElementsByTagName("body")[0].style.opacity = "0.88"
+  }
+
+  // console.log('是首页' , CONFIG.page.isHome)
+    // 不是首页显示背景
+	if(!CONFIG.page.isHome ) {
+      if(!CONFIG.page.isPost) {
+          document.getElementsByClassName("content-wrap")[0].style.background = " rgba(255,255,255,.88)"
+      }
+  }else {
+    // 首页隐藏了 所有文章的大div  边变窄了 这里优化宽度和对齐
+    if(!(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        //不是手机端
+       document.getElementsByClassName("posts-expand")[0].style.marginLeft = '-16px'
+    } 
+    document.getElementsByClassName("posts-expand")[0].style.width = '105%'
+  }
+}
+var url = document.location.pathname;
+var folderName = url.substr(1, url.length - 2)
+console.log(folderName);
+
+var listPostUrl = [
+    "/" + folderName + "/" + "post-banner.png",
+    "/" + folderName + "/" + "post-banner.jpg",
+];
+
+var nSuccessCount = 0;
+var nResponceCount = 0;
+function OnHttpResponse(bSuccess, strUrl) {
+    console.log("OnHttpResponse: " + bSuccess + ", " + strUrl);
+    nResponceCount++;
+    if(nSuccessCount > 0){
+        return;
+    }
+    if(bSuccess) {
+        nSuccessCount++;
+        document.getElementById("id-header-inner").style.backgroundImage = "url(" + strUrl + ")";
+    }
+    if(nResponceCount >= listPostUrl.length && nSuccessCount <= 0){
+        // 使用默认图
+        document.getElementById("id-header-inner").style.backgroundImage = "url(/images/background.jpg)";
+    }
+}
+
+function changeBanner(strPostUrl, nIndex){
+    console.log("try to load" + strPostUrl);
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+    {
+        //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {
+        // IE6, IE5 浏览器执行代码
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            OnHttpResponse(true, strPostUrl);
+        } else {
+            OnHttpResponse(false, strPostUrl);
+        }
+    }
+    xmlhttp.open("HEAD",strPostUrl,true);
+    xmlhttp.send();
+}
+
+listPostUrl.forEach(changeBanner);
+</script>
+		
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lilongji.gitee.io/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/">
+<script>
+    (function () {
+        if ('') {
+           var inpwd = prompt('请输入文章密码')
+            if(inpwd) {
+              if (inpwd !== '') {
+                  alert('密码错误！');
+                  if (history.length === 1) {
+                      location.replace("http://myIndexHomeUrl"); 
+                  } else {
+                      history.back();
+                  }
+              }
+            } else {
+               history.back();
+            }
+        }
+    })();
+   
+</script>
+ 
+	<style>
+		.content-wrap {
+		  background: white;
+		  border-radius: 0  0 17px  17px
+		}
+		.post-header{
+		  padding-top: 20px
+		}
+	</style>
+
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="lilongji">
+      <meta itemprop="description" content="狩猎甚广">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="桔子">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          加速docker拉取速度之docker-daoCloud镜像源配置
+        </h1>
+
+        <div class="post-meta">
+
+            <i class="fa fa-thumb-tack"></i>
+            <font color=808080>置顶</font>
+            <span class="post-meta-divider">|</span>
+
+
+
+            <span class="post-meta-item">
+              <span title='发表于' class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span title='发表于' class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-21 15:06:43" itemprop="dateCreated datePublished" datetime="2020-02-21T15:06:43+08:00">2020-02-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+                  
+				  >
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/" class="post-meta-item leancloud_visitors" data-flag-title="加速docker拉取速度之docker-daoCloud镜像源配置" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+         <!--
+         
+             -->
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>455</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文已解决执行 docker pull xxx镜像时经常会遇到<strong>连接超时</strong>以及<strong>连接拒绝</strong>问题</p>
+<h3 id="一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。"><a href="#一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。" class="headerlink" title="一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。"></a>一，在<a href="https://www.daocloud.io/mirror" target="_blank" rel="noopener">daoCloud镜像站</a>找到自己系统相对应的命令，执行或者配置。</h3><blockquote>
+<p>我的是centos7直接使用第一个命令, 直接在终端中执行了😃</p>
+</blockquote>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/158221282867571651582212826398.png" alt="官方提示的各版本操作方式"></p>
+<a id="more"></a>
+
+<h3 id="二，配置和执行命令后发现报错信息：图中红色部分"><a href="#二，配置和执行命令后发现报错信息：图中红色部分" class="headerlink" title="二，配置和执行命令后发现报错信息：图中红色部分"></a>二，配置和执行命令后发现报错信息：图中红色部分</h3><img src="/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/docker-cmd-error.png" alt="重启docker的相关服务后 , 执行push命令报错信息" style="zoom:150%;">
+
+<h3 id="三，修改阿里云等国内镜像源地址："><a href="#三，修改阿里云等国内镜像源地址：" class="headerlink" title="三，修改阿里云等国内镜像源地址："></a>三，修改阿里云等国内镜像源地址：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;docker&#x2F;daemon.json</span><br></pre></td></tr></table></figure>
+
+<p>修改为</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"registry-mirrors"</span>: [<span class="string">"https://9cpn8tt6.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="四，最后也是最重要的一步"><a href="#四，最后也是最重要的一步" class="headerlink" title="四，最后也是最重要的一步:"></a>四，最后也是最重要的一步:</h3><blockquote>
+<p> 刷新配置文件, 重启docker</p>
+</blockquote>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">systemctl</span> <span class="string">daemon-reload</span></span><br><span class="line"><span class="attr">systemctl</span> <span class="string">restart docker</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>再次执行下载镜像命令发现速度超快了😋, 我都没来得及截图😨</p>
+
+    </div>
+
+    
+    
+    
+<div>
+  
+    <div>
+    
+	<br>
+        <div style="text-align:center;color: #ccc;font-size:16px;">--------------------------有  缘  千  里  文  中  会     <i class="fa fa-paw"></i>     百  代  过  客  心  间  遇--------------------------</div>
+    
+</div>
+<div align="center" style="margin-top:20px">
+<i style="cursor:pointer" class="-mob-share-open fa fa-share-alt-square  fa-2x" aria-hidden="true"></i>
+</div>
+
+<div class="-mob-share-ui" style="display: none;">
+    <ul class="-mob-share-list">
+         <li class="-mob-share-qzone"><p>QQ空间</p></li>
+         <li class="-mob-share-qq"><p>QQ好友</p></li>
+         <li class="-mob-share-weixin"><p>微信</p></li>
+         <li class="-mob-share-weibo"><p>新浪微博</p></li>
+         <li class="-mob-share-tencentweibo"><p>腾讯微博</p></li>
+         <li class="-mob-share-douban"><p>豆瓣</p></li>
+         <li class="-mob-share-renren"><p>人人网</p></li>
+         <li class="-mob-share-kaixin"><p>开心网</p></li>
+         <li class="-mob-share-facebook"><p>Facebook</p></li>
+         <li class="-mob-share-twitter"><p>Twitter</p></li>
+         <li class="-mob-share-pocket"><p>Pocket</p></li>
+         <li class="-mob-share-google"><p>Google+</p></li>
+         <li class="-mob-share-youdao"><p>有道云笔记</p></li>
+         <li class="-mob-share-mingdao"><p>明道</p></li>
+         <li class="-mob-share-pengyou"><p>朋友网</p></li>
+         <li class="-mob-share-tumblr"><p>Tumblr</p></li>
+         <li class="-mob-share-instapaper"><p>Instapaper</p></li>
+         <li class="-mob-share-linkedin"><p>LinkedIn</p></li>
+    </ul>
+    <div class="-mob-share-close">取消</div>
+</div>
+<div class="-mob-share-ui-bg"></div>
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=2deb1b607f7a1"></script>
+        
+  
+
+
+</div>
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将大力鼓励我继续创作！爱，就供养；</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="lilongji 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lilongji
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://lilongji.gitee.io/2020/02/21/docker-daoCloud%E9%95%9C%E5%83%8F%E6%BA%90%E9%85%8D%E7%BD%AE/" title="加速docker拉取速度之docker-daoCloud镜像源配置">https://lilongji.gitee.io/2020/02/21/docker-daoCloud镜像源配置/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <img style='margin-top: 20px; height: 70%; width: 100%' src="/images/we-gongzhonghao.png">
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</i></a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/20/springbootTest/" rel="prev" title="SpringBoot测试单元类">
+      <i class="fa fa-chevron-left"></i> SpringBoot测试单元类
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/26/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%95%9C%E5%83%8F%E7%AB%99%E5%AE%89%E8%A3%85centos7%E5%B9%B6%E4%B8%AA%E6%80%A7%E5%8C%96%E9%85%8D%E7%BD%AE/" rel="next" title="阿里巴巴镜像站安装centos7并个性化配置">
+      阿里巴巴镜像站安装centos7并个性化配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+
+
+
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80ODI4OS8yNDc4Mw"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+	  
+
+  
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。"><span class="nav-text">一，在daoCloud镜像站找到自己系统相对应的命令，执行或者配置。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二，配置和执行命令后发现报错信息：图中红色部分"><span class="nav-text">二，配置和执行命令后发现报错信息：图中红色部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三，修改阿里云等国内镜像源地址："><span class="nav-text">三，修改阿里云等国内镜像源地址：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四，最后也是最重要的一步"><span class="nav-text">四，最后也是最重要的一步:</span></a></li></ol></div>
+      </div>
+	  
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="lilongji"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">lilongji</p>
+  <div class="site-description" itemprop="description">狩猎甚广</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="mailto:841318078@qq.com" title="E-Mail → mailto:841318078@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      推荐
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://gitee.com/lilongji" title="https:&#x2F;&#x2F;gitee.com&#x2F;lilongji" rel="noopener" target="_blank">码云</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        
+    </div>
+	 <div class="post-toc-wrap">
+            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=477933011&auto=0&height=66"></iframe>     
+    </div>
+
+<div id='saveImg' class="affix">
+</div>
+	  <div id="sidebar-dimmer"></div>
+
+  </aside>
+  
+  
+
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">天性不争,不等于逆来顺受。</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">5k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">5 分钟</span>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  
+    <script async src="/js/busuanzi2.3.pure.mini.js"></script>
+     
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i> 总访客量: 
+      </span>
+      <span class="site-uv" title="总访客量">
+         <span id="busuanzi_value_site_uv"></span>
+      </span>
+     
+  <span class="post-meta-divider">|</span>
+   
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i> 总访问量: 
+      </span>
+      <span class="site-pv" title="总访问量">
+       <span id="busuanzi_value_site_pv"></span>
+      </span>
+    
+</div>
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    url = encodeURI(url);
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.getAttribute('id'));
+      var title = visitors.getAttribute('data-flag-title');
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+              leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              })
+          } else {
+            console.log('添加阅读数1')
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.getAttribute('id'));
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=TdMJGNwYqjAyCSmkEi48r972-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'TdMJGNwYqjAyCSmkEi48r972-gzGzoHsz',
+            'X-LC-Key': '3Jzejy61ATPtxpKgOre2OqQP',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname == location.hostname || location.hostname == 'localhost' || location.hostname == 'canye666.github.io') {
+           addCount(Counter);
+        }
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='128' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/assets/miku.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
