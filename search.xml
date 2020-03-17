@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>js图片操作教程</title>
-    <url>/2020/03/17/js%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();    </span><br><span class="line">     xhr.open(<span class="string">"get"</span>, <span class="string">'http://api.btstu.cn/sjbz/zsy.php'</span>, <span class="literal">true</span>);</span><br><span class="line">     xhr.responseType = <span class="string">"blob"</span>;</span><br><span class="line">     xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">this</span>.status == <span class="number">200</span>) &#123;</span><br><span class="line">             <span class="keyword">debugger</span></span><br><span class="line">             <span class="keyword">var</span> blob = <span class="keyword">this</span>.response;</span><br><span class="line">             <span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</span><br><span class="line">             img.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">               <span class="built_in">window</span>.URL.revokeObjectURL(img.src); </span><br><span class="line">             &#125;;</span><br><span class="line">             img.src = <span class="built_in">window</span>.URL.createObjectURL(blob);</span><br><span class="line"> 　　　　　　　 <span class="built_in">document</span>.getElementsByTagName(<span class="string">"body"</span>)[<span class="number">0</span>].style.backgroundImage = img;</span><br><span class="line"></span><br><span class="line">      &#125; </span><br><span class="line">    &#125; </span><br><span class="line">    xhr.send();</span><br></pre></td></tr></table></figure>
-
-]]></content>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2020/03/17/hello-world/</url>
     <content><![CDATA[<p><img src="/2020/03/17/hello-world/59N58PICGVt_1024.jpg" alt="hexo实用命令以及配置"></p>
@@ -31,6 +24,13 @@
       <categories>
         <category>java</category>
       </categories>
+  </entry>
+  <entry>
+    <title>js图片操作教程</title>
+    <url>/2020/03/17/js%E5%9B%BE%E7%89%87%E6%93%8D%E4%BD%9C%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();    </span><br><span class="line">     xhr.open(<span class="string">"get"</span>, <span class="string">'http://api.btstu.cn/sjbz/zsy.php'</span>, <span class="literal">true</span>);</span><br><span class="line">     xhr.responseType = <span class="string">"blob"</span>;</span><br><span class="line">     xhr.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">this</span>.status == <span class="number">200</span>) &#123;</span><br><span class="line">             <span class="keyword">debugger</span></span><br><span class="line">             <span class="keyword">var</span> blob = <span class="keyword">this</span>.response;</span><br><span class="line">             <span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</span><br><span class="line">             img.onload = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">               <span class="built_in">window</span>.URL.revokeObjectURL(img.src); </span><br><span class="line">             &#125;;</span><br><span class="line">             img.src = <span class="built_in">window</span>.URL.createObjectURL(blob);</span><br><span class="line"> 　　　　　　　 <span class="built_in">document</span>.getElementsByTagName(<span class="string">"body"</span>)[<span class="number">0</span>].style.backgroundImage = img;</span><br><span class="line"></span><br><span class="line">      &#125; </span><br><span class="line">    &#125; </span><br><span class="line">    xhr.send();</span><br></pre></td></tr></table></figure>
+
+]]></content>
   </entry>
   <entry>
     <title>阿里巴巴镜像站安装centos7并个性化配置</title>
