@@ -1234,7 +1234,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #d0bdff;
+  background: #4effe8;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2488,7 +2488,6 @@ article {
 img {
   transition: all 1s;
 }
-img:not(.site-author-image):hover,
 .post-toc-wrap:hover {
   transform: scale(1.05);
 }
